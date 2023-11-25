@@ -2,6 +2,8 @@
 //created a basic server
 
 const http = require("http");
+const fs = require("fs");
+
 const server = http.createServer(function (req, res) {
   if (req.url === "/") {
     res.write("<html>");
@@ -10,6 +12,13 @@ const server = http.createServer(function (req, res) {
       "<body><form action='/message' method='POST'><input type='text'><button>Submit</button></form></body>"
     );
     res.write("</html>");
+    return res.end();
+  }
+
+  if (req.url === "/message" && req.method === "POST") {
+    fs.writeFileSync("message.txt", "Dummy Data");
+    res.statusCode = 302;
+    res.setHeader("Location", "/login");
     return res.end();
   }
 
